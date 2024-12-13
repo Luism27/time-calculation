@@ -38,8 +38,8 @@ function App() {
         <h1>Time Calculation</h1>
       </div>
       <div className="card">
-        <Row justify="space-between">
-          <Col span={6}>
+        <Row justify="center">
+          <Col lg={6}>
             <fieldset>
               <legend>Start Date</legend>
               <DatePicker
@@ -55,7 +55,7 @@ function App() {
               />
             </fieldset>
           </Col>
-          <Col span={6}>
+          <Col lg={6} >
             <fieldset>
               <legend>End Date</legend>
               <DatePicker
