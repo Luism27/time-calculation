@@ -5,6 +5,8 @@ import './App.css';
 import { Col, DatePicker, Row } from "antd";
 import moment, { Moment } from 'moment';
 import dayjs from 'dayjs';
+import { Analytics } from "@vercel/analytics/react"
+import { SpeedInsights } from "@vercel/speed-insights/next"
 
 type ResultTime = {
   hours: number;
@@ -80,6 +82,8 @@ function App() {
             The result is {result?.hours} hours {result?.minutes} minutes {result?.seconds} seconds
           </h2>
       }
+      <Analytics />
+      <SpeedInsights />
     </div>
   )
 }
