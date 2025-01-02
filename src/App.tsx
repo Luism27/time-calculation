@@ -14,7 +14,8 @@ function App() {
     startDate,
     setStartDate,
     setEndDate,
-    onMilitaryChange
+    onMilitaryChange,
+    hourFormat,
   } = useCalculation('time-calculation');
   return (
     <div className="App">
@@ -32,10 +33,10 @@ function App() {
             <fieldset>
               <legend>Start Date</legend>
               <DatePicker
-                format="YYYY-MM-DDTHH:mm:ss"
+                format={hourFormat}
                 onChange={(_, dateString) => {
                   if(dateString){
-                    setStartDate(moment(dateString));
+                    setStartDate(moment(dateString, hourFormat));
                   } else {
                     setStartDate(null);
                   }
@@ -48,11 +49,11 @@ function App() {
             <fieldset>
               <legend>End Date</legend>
               <DatePicker
-                format="YYYY-MM-DDTHH:mm:ss"
+                format={hourFormat}
                 minDate={startDate ? dayjs(startDate.format()):undefined}
                 onChange={(_, dateString) => {
                   if(dateString){
-                    setEndDate(moment(dateString));
+                    setEndDate(moment(dateString, hourFormat));
                   } else {
                     setEndDate(null);
                   }

@@ -7,6 +7,11 @@ type ResultTime = {
   seconds: number;
 }
 
+const format = {
+  n12Hours: "YYYY-MM-DDTHH:mm:ss",
+  i12Hours: "YYYY-MM-DDThh:mm:ss A",
+}
+
 export const useCalculation = (key: string) => {
   const saveToLocalStorage = (lastKey: string, value: any) => {
     localStorage.setItem(`${key}_${lastKey}`, JSON.stringify(value));
@@ -19,6 +24,7 @@ export const useCalculation = (key: string) => {
     return null;
   }
   const [is12hours, setIs12hours] = useState(true);
+  const [hourFormat, setHourFormat] = useState(format.n12Hours);
   const [startDate, setStartDate] = useState<Moment | null>(null);
   const [endDate, setEndDate] = useState<Moment | null>(null);
   const [result, setResult] = useState<ResultTime | null>(null);
@@ -38,21 +44,30 @@ export const useCalculation = (key: string) => {
       })
     }
   }, [startDate, endDate]);
+
   useEffect(()=>{
     const is12hours = getFromLocalStorage('is12hours');
     if(is12hours === null){
       saveToLocalStorage('is12hours', true);
+      setHourFormat(format.i12Hours);
     } else {
       setIs12hours(is12hours);
+      if(is12hours){
+        setHourFormat(format.i12Hours);
+      } else {
+        setHourFormat(format.n12Hours);
+      }
     }
   }, []);
   const onMilitaryChange = (e: any) => {
     if(e.target.checked){
       setIs12hours(false);
       saveToLocalStorage('is12hours', false);
+      setHourFormat(format.n12Hours);
     } else {
       setIs12hours(true);
       saveToLocalStorage('is12hours', true);
+      setHourFormat(format.i12Hours);
     }
   };
 
@@ -66,6 +81,7 @@ export const useCalculation = (key: string) => {
     setEndDate,
     onMilitaryChange,
     saveToLocalStorage,
-    getFromLocalStorage
+    getFromLocalStorage,
+    hourFormat,
   }
 };
