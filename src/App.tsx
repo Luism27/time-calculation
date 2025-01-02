@@ -24,7 +24,7 @@ function App() {
       <div className="card">
         <Row justify="center" style={{marginBottom: 20}}>
           <Col>
-            <Checkbox checked={!is12hours} onChange={onMilitaryChange} className='root'>Military?</Checkbox>
+            <Checkbox checked={!is12hours} onChange={onMilitaryChange} className='root'><span className='checkboxtext'>Military?</span></Checkbox>
           </Col>
         </Row>
         <Row justify="center">

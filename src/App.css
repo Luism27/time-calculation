@@ -40,3 +40,11 @@
 .read-the-docs {
   color: #888;
 }
+
+/* Might want to wrap a span around your checkbox text */
+.checkboxtext
+{
+  /* Checkbox text */
+  font-size: 150%;
+  display: inline;
+}
