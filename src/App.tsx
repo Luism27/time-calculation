@@ -1,46 +1,34 @@
-import { useEffect, useRef, useState } from 'react';
 import reactLogo from './assets/react.svg';
 import "antd/dist/reset.css";
 import './App.css';
-import { Col, DatePicker, Row } from "antd";
+import { Checkbox, Col, DatePicker, Row } from "antd";
 import moment, { Moment } from 'moment';
 import dayjs from 'dayjs';
 import { Analytics } from "@vercel/analytics/react"
+import { useCalculation } from './hooks/useCalculation';
 
-type ResultTime = {
-  hours: number;
-  minutes: number;
-  seconds: number;
-}
 function App() {
-  const [count, setCount] = useState(0);
-  const [startDate, setStartDate] = useState<Moment | null>(null);
-  const [endDate, setEndDate] = useState<Moment | null>(null);
-  const [result, setResult] = useState<ResultTime | null>(null);
-
-  useEffect(()=>{
-    if(!startDate || !endDate){
-      setResult(null);
-    } else if(startDate && endDate){
-      const diff = moment.duration(endDate.diff(startDate));
-      const hour = parseInt(diff.asHours().toString());
-      const minutes = parseInt(diff.asMinutes().toString()) % 60;
-      const seconds = parseInt(diff.asSeconds().toString()) % 60;
-      setResult({
-        hours: hour,
-        minutes: minutes,
-        seconds: seconds
-      })
-    }
-  }, [startDate, endDate]);
+  const {
+    is12hours,
+    result,
+    startDate,
+    setStartDate,
+    setEndDate,
+    onMilitaryChange
+  } = useCalculation('time-calculation');
   return (
     <div className="App">
       <div>
         <h1>Time Calculation</h1>
       </div>
       <div className="card">
+        <Row justify="center" style={{marginBottom: 20}}>
+          <Col>
+            <Checkbox checked={!is12hours} onChange={onMilitaryChange} className='root'>Military?</Checkbox>
+          </Col>
+        </Row>
         <Row justify="center">
-          <Col lg={6}>
+          <Col xs={24} md={12} style={{marginBottom: 20}}>
             <fieldset>
               <legend>Start Date</legend>
               <DatePicker
@@ -52,11 +40,11 @@ function App() {
                     setStartDate(null);
                   }
                 }}
-                showTime={{ use12Hours: true }}
+                showTime={{ use12Hours: is12hours }}
               />
             </fieldset>
           </Col>
-          <Col lg={6} >
+          <Col xs={24} md={12} >
             <fieldset>
               <legend>End Date</legend>
               <DatePicker
@@ -69,7 +57,7 @@ function App() {
                     setEndDate(null);
                   }
                 }}
-                showTime={{ use12Hours: true }}
+                showTime={{ use12Hours: is12hours }}
               />
             </fieldset>
           </Col>
